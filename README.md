@@ -1,136 +1,137 @@
-# Create music using MAX human pose estimator and TensorFlow.js
+![Logo](docs/source/images/campusparty_logo.png)
 
-In this code pattern you will create music based on the movement of your arms in front of a webcam.
+# Crea tu propia música usando el estimador de poses humanas MAX y TensorFlow.js
 
-It is based on the [Veremin](https://github.com/vabarbosa/veremin) but modified to use the [Human Pose Estimator](https://developer.ibm.com/exchanges/models/all/max-human-pose-estimator) model from the [Model Asset eXchange (MAX)](https://developer.ibm.com/exchanges/models). The Human Pose Estimator model is trained  to detect humans and their poses in a given image. It is [converted](https://github.com/IBM/max-human-pose-estimator-tfjs#converting-the-model) to the [TensorFlow.js](https://js.tensorflow.org) web-friendly format.
+En este patrón de código, crearás música basada en el movimiento de tus brazos frente a una cámara web.
 
-The web application streams video from your web camera. The Human Pose Estimator model is used to predict the location of your wrists within the video. The application takes the predictions and converts them to tones in the browser or to MIDI values which get sent to a connected MIDI device.
+Está basado en el [Veremin](https://github.com/vabarbosa/veremin) pero modificado para usar el modelo [Estimador de poses humanas](https://developer.ibm.com/exchanges/models/all/max-human-pose-estimator) del [Model Asset eXchange (MAX)](https://developer.ibm.com/exchanges/models). El modelo estimador de poses humanas está entrenado para detectar humanos y sus poses en una imagen dada. Es [convertido](https://github.com/IBM/max-human-pose-estimator-tfjs#converting-the-model) al formato amigable para web [TensorFlow.js](https://js.tensorflow.org).
 
-Browsers must allow [access to the webcam](https://caniuse.com/#feat=stream) and support the [Web Audio API](https://caniuse.com/#feat=audio-api). Optionally, to integrate with a MIDI device the browser will need to support the [Web MIDI API](https://caniuse.com/#feat=midi) (e.g., Chrome browser version 43 or later).
+La aplicación web transmite video desde tu cámara web. El modelo estimador de poses humanas se usa para predecir la ubicación de tus muñecas dentro del video. La aplicación toma las predicciones y las convierte en tonos en el navegador o en valores MIDI que se envían a un dispositivo MIDI conectado.
 
-![Architecture](docs/source/images/architecture.png)
+Los navegadores deben permitir el [acceso a la cámara web](https://caniuse.com/#feat=stream) y soportar la [Web Audio API](https://caniuse.com/#feat=audio-api). Opcionalmente, para poder integrarlo a un dispositivo MIDI el navegador debe soportar el [Web MIDI API](https://caniuse.com/#feat=midi) (por ejemplo, Navegador Chrome version 43 o posteriores).
 
-## Flow
+![Arquitectura](docs/source/images/architecture.png)
 
+## Flujo
 
-1. Human pose estimator model is converted to the TensorFlow.js web format using the Tensorflow.js converter.
-1. User launches the web application.
-1. Web application loads the TensorFlow.js model.
-1. User stands in front of webcam and moves arms.
-1. Web application captures video frame and sends to the TensorFlow.js model. Model returns a prediction of the estimated poses in the frame.
-1. Web application processes the prediction and overlays the skeleton of the estimated pose on the Web UI.
-1. Web application converts the position of the user’s wrists from the estimated pose to a MIDI message, and the message is sent to a connected MIDI device or sound is played in the browser.
-
-
-## Included Components
-
-* [MAX Human Pose Estimator](https://developer.ibm.com/exchanges/models/all/max-human-pose-estimator): A machine learning model which detects human poses
-* [TensorFlow.js](https://js.tensorflow.org/): A JavaScript library for training and deploying ML models in the browser and on Node.js
+1. El modelo estimador de poses humanas se convierte al formato web TensorFlow.js utilizando el convertidor Tensorflow.js.
+1. El usuario inicia la aplicación web.
+1. La aplicación web carga el modelo de TensorFlow.js.
+1. El usuario se para frente a la cámara web y mueve los brazos.
+1. La aplicación web captura cuadros de video y los envía al modelo de TensorFlow.js. El modelo retorna una predicción de la pose estimada a la interfaz de usuario Web.
+1. La aplicación web procesa la predicción y superpone el esqueleto de la pose estimada en la interfaz de usuario web.
+1. La aplicación web convierte la posición de las muñecas del usuario de la pose estimada en un mensaje MIDI, y el mensaje se envía a un dispositivo MIDI conectado o se reproduce el sonido en el navegador.
 
 
-## Featured Technologies
+## Componentes Incluidos
 
-* [Web MIDI API](https://www.w3.org/TR/webmidi): An API supporting the MIDI protocol, enabling web applications to enumerate and select MIDI input and output devices on the client system and send and receive MIDI messages
-* [Web Audio API](https://www.w3.org/TR/webaudio): A high-level Web API for processing and synthesizing audio in web applications
-* [Tone.js](https://tonejs.github.io/): A framework for creating interactive music in the browser
+* [Estimador de poses humanas MAX](https://developer.ibm.com/exchanges/models/all/max-human-pose-estimator): Un modelo de Machine Learning que detecta poses humanas.
+* [TensorFlow.js](https://js.tensorflow.org/): Una biblioteca de JavaScript para entrenar e implementar modelos de ML en el navegador y en Node.js
+
+
+## Tecnologías Incluidas
+
+* [Web MIDI API](https://www.w3.org/TR/webmidi): Una API que admite el protocolo MIDI, que permite a las aplicaciones web enumerar y seleccionar dispositivos de entrada y salida MIDI en el sistema cliente y enviar y recibir mensajes MIDI.
+* [Web Audio API](https://www.w3.org/TR/webaudio): Una API web de alto nivel para procesar y sintetizar audio en aplicaciones web.
+* [Tone.js](https://tonejs.github.io/): Un framework para crear música interactiva en el navegador.
 
 ## Demo
 
-[To try this application](https://github.com/IBM/max-human-pose-estimator-tfjs#using-the-app) without installing anything, simply visit [ibm.biz/veremax](https://ibm.biz/veremax) in a web browser that has access to a web camera and support for the Web Audio API.
+[Para probar la aplicación](https://github.com/IBM/max-human-pose-estimator-tfjs#using-the-app) sin necesidad de instalar algo, simplemente visitar [ibm.biz/veremax](https://ibm.biz/veremax) en un navegador web que tiene acceso a una cámara web y soporte para la Web Audio API.
 
-[![Max Human Pose Estimator Demo](https://img.youtube.com/vi/QSrRUw2RRqw/0.jpg)](https://youtu.be/QSrRUw2RRqw)
+[![Demo del estimador de poses humanas MAX](https://img.youtube.com/vi/QSrRUw2RRqw/0.jpg)](https://youtu.be/QSrRUw2RRqw)
 
 
-## Steps
+## Pasos
 
-There are two ways to run your own Veremax:
+Hay tres maneras de correr tu propio Veremax:
 
-- [Deploy to IBM Cloud](https://github.com/IBM/max-human-pose-estimator-tfjs#deploy-to-ibm-cloud)
-- [Run locally](https://github.com/IBM/max-human-pose-estimator-tfjs#run-locally)
-- [Run in Docker](https://github.com/IBM/max-human-pose-estimator-tfjs#run-in-docker)
+- [Desplegar a IBM Cloud](https://github.com/IBM/max-human-pose-estimator-tfjs#deploy-to-ibm-cloud)
+- [Desplegar localmente](https://github.com/IBM/max-human-pose-estimator-tfjs#run-locally)
+- [Desplegar en Docker](https://github.com/IBM/max-human-pose-estimator-tfjs#run-in-docker)
 
-### Deploy to IBM Cloud
+### Desplegar a IBM Cloud
 
-Pre-requisites:
+Pre-requisitos:
 
-- Get an [IBM Cloud account](https://console.bluemix.net/)
-- Install/Update the [IBM Cloud CLI](https://console.bluemix.net/docs/cli/reference/ibmcloud/download_cli.html#install_use)
-- [Configure and login](https://console.bluemix.net/docs/cli/index.html#overview) to the IBM Cloud using the CLI
+- Tener una [cuenta de IBM Cloud](https://console.bluemix.net/)
+- Instalar/Actualizar el [cliente de IBM Cloud](https://console.bluemix.net/docs/cli/reference/ibmcloud/download_cli.html#install_use)
+- [Configurar y hacer login](https://console.bluemix.net/docs/cli/index.html#overview) a IBM Cloud usando el CLI
 
-To deploy to the IBM Cloud, from a terminal run:
+Para desplegar al IBM Cloud, desde una terminal correr:
 
-1. Clone the `max-human-pose-estimator-tfjs` locally:
+1. Clonar el `max-human-pose-estimator-tfjs` localmente:
 
     ```
     $ git clone https://github.com/IBM/max-human-pose-estimator-tfjs
     ```
 
-1. Change to the directory of the cloned repo:
+1. Ubicarse sobre el directorio del repositorio clonado:
 
     ```
     $  cd max-human-pose-estimator-tfjs
     ```
 
-1. Log in to your IBM Cloud account:
+1. Hacer login a tu cuenta de IBM Cloud:
 
     ```
     $ ibmcloud login
     ```
 
-1. Target a Cloud Foundry org and space:
+1. Apunte a una organización y espacio de Cloud Foundry:
 
     ```
     $ ibmcloud target --cf
     ```
 
-1. Push the app to IBM Cloud:
+1. Desplegar la aplicación a IBM Cloud:
 
     ```
     $ ibmcloud cf push
     ```
-    Deploying can take a few minutes.
+    El despliegue puede tardar unos minutos.
 
-1. View the app with a browser at the URL listed in the output.
+1. Puedes visualizar la aplicación con un explorador en la URL que despliega la salida del último comando ejecutado.
 
-    > **Note**: Depending on your browser, you may need to access the app using the **`https`** protocol instead of the **`http`**
+    > **Nota**: Dependiendo de tu explorador, podrías necesitar ingresar a la app utlizando el protocolo **`https`** en lugar de **`http`**
 
-### Run locally
+### Desplegar localmente
 
-To run the app locally:
+Para correr la aplicación localmente:
 
-1. From a terminal, clone the `max-human-pose-estimator-tfjs` locally:
+1. Desde una terminal, clonar el `max-human-pose-estimator-tfjs` localmente:
 
     ```
     $ git clone https://github.com/IBM/max-human-pose-estimator-tfjs
     ```
 
-1. Point your web server to the cloned repo directory (`/max-human-pose-estimator-tfjs`)
+1. Apunte su servidor web al directorio del repositorio clonado (`/max-human-pose-estimator-tfjs`)
 
-    > For example:  
-    > - using the **[Web Server for Chrome](https://github.com/kzahel/web-server-chrome)** extension (available from the [Chrome Web Store](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb))
+    > Por ejemplo:  
+    > - usando la extensión **[Web Server for Chrome](https://github.com/kzahel/web-server-chrome)** (disponible en la [Tienda Web de Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb))
     >   
-    >   1. Go to your Chrome browser's Apps page (chrome://apps)
-    >   1. Click on the **Web Server**
-    >   1. From the Web Server, click **CHOOSE FOLDER** and browse to the cloned repo directory
-    >   1. Start the Web Server
-    >   1. Make note of the **Web Server URL(s)** (e.g., http://127.0.0.1:8887)
+    >   1. Vaya a la página de aplicaciones de su navegador Chrome (chrome://apps)
+    >   1. Click en **Web Server**
+    >   1. Desde el Web Server, click **CHOOSE FOLDER** o **ELEGIR DIRECTORIO** y vaya al directorio del repositorio clonado
+    >   1. Inicie el servidor web
+    >   1. Fíjese en el **Web Server URL(s)** (por ejemplo, http://127.0.0.1:8887)
     >   
-    > - using the Python **HTTP server** module
+    > - usando el módulo **HTTP server** de Python
     >   
-    >   1. From a terminal shell, go to the cloned repo directory
-    >   1. Depending on your Python version, enter one of the following commands:
+    >   1. Desde una terminal, ubíquese en el directorio del repositorio clonado
+    >   1. Dependiendo de su versión de Python, ingrese alguno de los siguientes comandos:
     >       - Python 2.x: `python -m SimpleHTTPServer 8080`
     >       - Python 3.x: `python -m http.server 8080`
-    >   1. Once started, the Web Server URL should be http://127.0.0.1:8080
+    >   1. Una vez iniciado, la URL del Web Server debería ser http://127.0.0.1:8080
     >   
 
-1. From your browser, go to the Web Server's URL
+1. Desde su explorador, vaya a la URL del Web Server
 
-### Run in Docker
+### Desplegar en Docker
 
-Pre-requisite:
+Pre-requisito:
 
-- Install [Docker](https://www.docker.com/products/docker-desktop)
+- Instalar [Docker](https://www.docker.com/products/docker-desktop)
 
 From a terminal:
 
