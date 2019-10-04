@@ -44,11 +44,10 @@ Los navegadores deben permitir el [acceso a la cámara web](https://caniuse.com/
 
 ## Pasos
 
-Hay tres maneras de correr tu propio Veremax:
+Hay dos maneras de correr tu propio Veremax:
 
 - [Desplegar a IBM Cloud](https://github.com/IBM/max-human-pose-estimator-tfjs#deploy-to-ibm-cloud)
 - [Desplegar localmente](https://github.com/IBM/max-human-pose-estimator-tfjs#run-locally)
-- [Desplegar en Docker](https://github.com/IBM/max-human-pose-estimator-tfjs#run-in-docker)
 
 ### Desplegar a IBM Cloud
 
@@ -127,115 +126,25 @@ Para correr la aplicación localmente:
 
 1. Desde su explorador, vaya a la URL del Web Server
 
-### Desplegar en Docker
 
-Pre-requisito:
+## Usando la aplicación web
 
-- Instalar [Docker](https://www.docker.com/products/docker-desktop)
+Para obtener mejores resultados, utilícelo en un área bien iluminada con buen contraste entre usted y el fondo. Y aléjese de la cámara web para que al menos la mitad de su cuerpo aparezca en el video.
 
-From a terminal:
+Como mínimo, sus exploradores deben permitir [acceso a la cámara web](https://caniuse.com/#feat=stream) y soportar la [Web Audio API](https://caniuse.com/#feat=audio-api).
 
-1. Clone this repository
+Además, si soporta la  [Web MIDI API](https://caniuse.com/#feat=midi), puedes conectar un sintetizador MIDI. Si no tienes un sintetizador MIDI puedes descargar un software de sintetizador como el [SimpleSynth](http://notahat.com/simplesynth/).
 
-   ```
-   $ git clone https://github.com/IBM/max-human-pose-estimator-tfjs
-   $ cd max-human-pose-estimator-tfjs
-   ```
+Si su navegador no es compatible con la Web MIDI API o no se detecta ningún sintetizador (hardware o software), la aplicación usa de manera predeterminada la API de audio web para generar tonos en el navegador.
 
-2. [Build the Docker image](https://docs.docker.com/engine/reference/commandline/build/)
+Abra su navegador y vaya a la URL de la aplicación. Dependiendo de su navegador, es posible que necesite acceder a la aplicación utilizando el protocolo **`https`** en lugar de **`http`**. Es posible que también deba aceptar la solicitud del navegador para permitir el acceso a la cámara web. Una vez que se permite el acceso, se carga el modelo del estimador de poses humanas.
 
-   ```
-   $ docker build -t veremax .
-   ```
+Después de cargar el modelo, aparecerá la transmisión de video de la cámara web e incluirá una superposición con información esquelética detectada por el modelo. La superposición también incluirá dos zonas / cajas adyacentes. Cuando se detectan sus muñecas dentro de cada una de las zonas, debería escuchar algo de sonido.
 
-3. [Run the Docker container](https://docs.docker.com/engine/reference/commandline/run/)
+- Mueva su mano / brazo derecho hacia arriba y hacia abajo (en la zona derecha) para generar diferentes notas
+- Mueva su mano / brazo izquierdo hacia la izquierda y hacia la derecha (en la zona izquierda) para ajustar la velocidad de la nota.
 
-   ```
-   $ docker run -d -p 3000:80 veremax
-   ``` 
-
-4. In your browser, open [localhost:3000](http://localhost:3000) and enable the web camera
-
-To stop the Docker container. From a terminal:
-
-1. [Obtain the container id](https://docs.docker.com/engine/reference/commandline/ps/) for `veremax`
-
-   ```
-   $ docker ps
-   ``` 
-
-2. [Stop the Docker container](https://docs.docker.com/engine/reference/commandline/stop/) using the container id obtained above
-
-   ```
-   $ docker stop container_id  
-   ```
-
-## Using the app
-
-For best results use in a well-lit area with good contrast between you and the background. And stand back from the webcam so at least half of your body appears in the video.
-
-At a minimum, your browsers must allow [access to the web camera](https://caniuse.com/#feat=stream) and support the [Web Audio API](https://caniuse.com/#feat=audio-api).
-
-In addition, if it supports the [Web MIDI API](https://caniuse.com/#feat=midi), you may connect a MIDI synthesizer to your computer. If you do not have a MIDI synthesizer you can download and run a software synthesizer such as [SimpleSynth](http://notahat.com/simplesynth/).
-
-If your browser does not support the Web MIDI API or no (hardware or software) synthesizer is detected, the app defaults to using the Web Audio API to generate tones in the browser.
-
-Open your browser and go to the app URL. Depending on your browser, you may need to access the app using the **`https`** protocol instead of the **`http`**. You may also have to accept the browser's prompt to allow access to the web camera. Once access is allowed, the Human Pose Estimator model gets loaded.
-
-After the model is loaded, the video stream from the web camera will appear and include an overlay with skeletal information detected by the model. The overlay will also include two adjacent zones/boxes. When your wrists are detected within each of the zones, you should here some sound.
-
-- Move your right hand/arm up and down (in the right zone) to generate different notes
-- Move your left hand/arm left and right (in the left zone) to adjust the velocity of the note.
-
-Click on the Controls icon (top right) to open the control panel. In the control panel you are able to change MIDI devices (if more than one is connected), configure post-processing settings, set what is shown in the overlay, and configure additional options.
-
-
-## Converting the model
-
-The converted MAX Human Pose Estimator model can be found in the [`model`](https://github.com/IBM/max-human-pose-estimator-tfjs/tree/master/model) directory. To convert the model to the TensorFlow.js web friendly format the following steps below.
-
-> **Note**: The Human Pose Estimator model is a frozen graph. The current version of the `tensorflowjs_converter` no longer supports frozen graph models. To convert frozen graphs it is recommended to use an older version of the Tensorflow.js converter (0.8.0) and then run the `pb2json` script from Tensorflow.js converter 1.x.
-
-1. Install the [tensorflowjs 0.8.0](https://pypi.org/project/tensorflowjs/0.8.0/) Python module
-1. Download and extract the pre-trained [Human Pose Estimator model](http://max-assets.s3.us.cloud-object-storage.appdomain.cloud/human-pose-estimator/1.0/assets.tar.gz)
-1. From a terminal, run the `tensorflowjs_converter`:
-
-    ```
-    tensorflowjs_converter \
-        --input_format=tf_frozen_model \
-        --output_node_names='Openpose/concat_stage7' \
-        {model_path} \
-        {pb_model_dir}
-    ```
-
-    where
-
-    - **{model_path}** is the path to the extracted model  
-    - **{pb_model_dir}** is the directory to save the converted model artifacts
-    - **output_node_names** (`Openpose/concat_stage7`) is obtained by inspecting the model’s graph. One useful and easy-to-use visual tool for viewing machine learning models is [Netron](https://github.com/lutzroeder/Netron).
-
-1. Clone and install the `tfjs-converter` TypeScipt scripts
-
-    ```
-    $ git clone git@github.com:tensorflow/tfjs-converter.git
-    $ cd tfjs-converter
-    $ yarn
-    ```
-
-1. Run the `pb2json` script:
-
-    ```
-    yarn ts-node tools/pb2json_converter.ts {pb_model_dir}/ {json_model_dir}/
-    ```
-
-    where
-
-    - **{pb_model_dir}** is the directory to converted model artifacts from step 3
-    - **{json_model_dir}** is the directory to save the updated model artifacts
-
-
-When the completed, the contents of **{json_model_dir}** will be the web friendly format of the Human Pose Estimator model for TensorFlow.js 1.x. And the **{pb_model_dir}** will be the web friendly format for TensorFlow.js 0.15.x.
-
+Haga click en el icono de Controles (arriba a la derecha) para abrir el panel de control. En el panel de control, puede cambiar los dispositivos MIDI (si hay más de uno conectado), configurar los ajustes de posprocesamiento, establecer lo que se muestra en la superposición y configurar opciones adicionales.
 
 ## Links
 
